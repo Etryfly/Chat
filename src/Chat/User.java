@@ -1,7 +1,7 @@
-package DAO;
+package Chat;
 
 /**
  * Created by etryfly on 14.07.17.
  */
-public interface DAO {
+public class User {
 }
