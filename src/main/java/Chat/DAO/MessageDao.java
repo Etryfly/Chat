@@ -3,6 +3,7 @@ package Chat.DAO;
 import Chat.Message;
 import Chat.User;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -10,8 +11,8 @@ import java.util.List;
  */
 public interface MessageDao {
     Message create();
-    Message read(int id);
+    Message read(int id) throws SQLException;
     void update(Message message);
     void delete(Message message);
-    List<Message> getAll();
+    List<Message> getAll() throws SQLException;
 }
