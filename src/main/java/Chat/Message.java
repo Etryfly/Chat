@@ -8,7 +8,7 @@ import java.util.Date;
  */
 public class Message  {
     private String data;
-    private String user;
+    private User user;
     private Date date;
 
     public String getData() {
@@ -19,11 +19,11 @@ public class Message  {
         this.data = data;
     }
 
-    public String getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(String user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

@@ -1,6 +1,9 @@
-package Chat.DAO;
+package Chat.DAO.MySql;
 
+import Chat.DAO.MessageDao;
+import Chat.DAO.PersistException;
 import Chat.Message;
+import Chat.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,12 +23,16 @@ public class MySqlMessageDao implements MessageDao {
     }
 
 
-
-
-    @Override
-    public Message create() {
-        //INSERT INTO `chat`.`messages` (`id`, `message`, `user`) VALUES ('1', 'test', 'test');
-        return null;
+    public Message create(Message message) throws SQLException, PersistException {
+        String sql = "INSERT INTO chat.messages (message, user) VALUES (?, ?);";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, message.getData());
+        preparedStatement.setString(2, message.getUser().getName());
+        int count = preparedStatement.executeUpdate();
+        if (count != 1) {
+            throw new PersistException();
+        }
+        return message;
     }
 
 
@@ -38,19 +45,16 @@ public class MySqlMessageDao implements MessageDao {
         result.next();
         Message message = new Message();
         message.setData(result.getString("message"));
-        message.setUser(result.getString("user"));
+
+
+        message.setUser(new User(result.getString("user")));
 
         return message;
     }
 
     @Override
-    public void update(Message message) {
-
-    }
-
-    @Override
     public void delete(Message message) {
-
+        throw new UnsupportedOperationException("Coming soon");
     }
 
 
@@ -63,7 +67,7 @@ public class MySqlMessageDao implements MessageDao {
 
         while (result.next()) {
             Message message = new Message();
-            message.setUser(result.getString("user"));
+            message.setUser(new User(result.getString("user")));
             message.setData(result.getString("message"));
             messages.add(message);
         }

@@ -1,6 +1,6 @@
 import Chat.DAO.DaoFactory;
 import Chat.DAO.MessageDao;
-import Chat.DAO.MySqlDaoFactory;
+import Chat.DAO.MySql.MySqlDaoFactory;
 import Chat.Message;
 import org.junit.Assert;
 import org.junit.Test;

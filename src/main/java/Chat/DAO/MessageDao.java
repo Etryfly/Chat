@@ -9,10 +9,10 @@ import java.util.List;
 /**
  * Etryfly 14.07.17.
  */
+
 public interface MessageDao {
-    Message create();
+    Message create(Message message) throws SQLException, PersistException;
     Message read(int id) throws SQLException;
-    void update(Message message);
     void delete(Message message);
     List<Message> getAll() throws SQLException;
 }

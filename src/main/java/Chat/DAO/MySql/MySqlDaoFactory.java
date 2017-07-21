@@ -1,7 +1,10 @@
-package Chat.DAO;
+package Chat.DAO.MySql;
+
+import Chat.DAO.DaoFactory;
+import Chat.DAO.MessageDao;
+import Chat.DAO.UserDao;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
