@@ -9,23 +9,17 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- * Created by etryfly on 14.07.17.
+ * Etryfly 14.07.17.
  */
 public class MySqlDaoFactory implements DaoFactory {
 
     private static Properties dbProperties = new Properties();
 
-    static {
-
-    }
 
     private String user;
     private String password;
     private String url;
     private String driver;
-
-
-
 
     @Override
     public Connection getConnection() throws SQLException {

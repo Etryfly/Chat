@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by etryfly on 14.07.17.
+ * Etryfly 14.07.17.
  */
 public class MySqlMessageDao implements MessageDao {
     private final Connection connection;
@@ -19,13 +19,16 @@ public class MySqlMessageDao implements MessageDao {
         this.connection = connection;
     }
 
+
+
+
     @Override
     public Message create() {
         //INSERT INTO `chat`.`messages` (`id`, `message`, `user`) VALUES ('1', 'test', 'test');
         return null;
     }
 
-    @Override
+
     public Message read(int id) throws SQLException {
         String sql = "SELECT * FROM chat.messages WHERE id = ?;";
         PreparedStatement stm = connection.prepareStatement(sql);
@@ -49,6 +52,7 @@ public class MySqlMessageDao implements MessageDao {
     public void delete(Message message) {
 
     }
+
 
     @Override
     public List<Message> getAll() throws SQLException {

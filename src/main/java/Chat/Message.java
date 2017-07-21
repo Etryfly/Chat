@@ -1,11 +1,12 @@
 package Chat;
 
+
 import java.util.Date;
 
 /**
- * Created by etryfly on 14.07.17.
+ * Etryfly 14.07.17.
  */
-public class Message {
+public class Message  {
     private String data;
     private String user;
     private Date date;
@@ -33,4 +34,5 @@ public class Message {
     public void setDate(Date date) {
         this.date = date;
     }
+
 }
