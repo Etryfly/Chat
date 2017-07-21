@@ -36,7 +36,7 @@ public class MySqlDaoFactory implements DaoFactory {
 
     @Override
     public UserDao getUserDao(Connection connection) {
-        return null;
+        return new MySqlUserDao(connection);
     }
 
     public MySqlDaoFactory() {

@@ -25,7 +25,7 @@ public class MySqlUserDao implements UserDao {
 
     @Override
     public User create(String name) throws SQLException, PersistException {
-        String sql = "INSERT INTO chat.users (name) VALUES ?;";
+        String sql = "INSERT INTO chat.users (name) VALUES (?);";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, name);
         int count = preparedStatement.executeUpdate();
