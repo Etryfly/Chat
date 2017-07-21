@@ -49,6 +49,14 @@ public class MySqlMessageDao implements MessageDao {
 
         message.setUser(new User(result.getString("user")));
 
+        try (ResultSet generatedKeys = stm.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                message.setId((int) generatedKeys.getLong(1));
+            } else {
+                throw new SQLException("Creating message failed, no ID obtained.");
+            }
+        }
+
         return message;
     }
 
@@ -73,6 +81,5 @@ public class MySqlMessageDao implements MessageDao {
         }
 
         return messages;
-
     }
 }

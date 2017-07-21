@@ -10,6 +10,7 @@ public class Message  {
     private String data;
     private User user;
     private Date date;
+    private int id;
 
     public String getData() {
         return data;
@@ -35,4 +36,11 @@ public class Message  {
         this.date = date;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
