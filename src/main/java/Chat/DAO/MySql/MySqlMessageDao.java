@@ -82,4 +82,12 @@ public class MySqlMessageDao implements MessageDao {
 
         return messages;
     }
+
+    @Override
+    public int getCount() throws SQLException {
+        String sql = "SELECT count(0) FROM chat.messages";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet set = statement.executeQuery();
+        return set.getInt("count");
+    }
 }
