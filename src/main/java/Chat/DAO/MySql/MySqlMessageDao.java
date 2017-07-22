@@ -5,10 +5,7 @@ import Chat.DAO.PersistException;
 import Chat.Message;
 import Chat.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,9 +82,15 @@ public class MySqlMessageDao implements MessageDao {
 
     @Override
     public int getCount() throws SQLException {
-        String sql = "SELECT count(0) FROM chat.messages";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        ResultSet set = statement.executeQuery();
-        return set.getInt("count");
+        String sql = "SELECT COUNT(*) FROM chat.messages;";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+        int count = 0;
+
+        while (resultSet.next()) {
+            count = resultSet.getInt(1);
+        }
+
+        return count;
     }
 }
