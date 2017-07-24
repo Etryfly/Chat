@@ -1,7 +1,16 @@
 package Chat;
 
+import Chat.DAO.DaoFactory;
+import Chat.DAO.MessageDao;
+import Chat.DAO.PersistException;
+import Chat.DAO.UserDao;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Etryfly 24.07.17.
@@ -11,9 +20,23 @@ public class ChatGUI extends JFrame {
     private JTextField jTextField = new JTextField("Enter message", 1);
     private JButton jButton = new JButton("Send");
     private JScrollPane jScrollPane = new JScrollPane(jTextArea,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+   // private JOptionPane jOptionPane = new JOptionPane();
 
-    public ChatGUI() {
+    private DaoFactory daoFactory;
+    private Connection connection;
+    private MessageDao messageDao;
+    private UserDao userDao;
+
+    private User user;
+
+    public ChatGUI(DaoFactory daoFactory) throws SQLException, PersistException {
         super("Chat");
+
+        this.daoFactory = daoFactory;
+        connection = daoFactory.getConnection();
+        messageDao = daoFactory.getMessageDao(connection);
+        userDao = daoFactory.getUserDao(connection);
+
         setBounds(100, 100, 650, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -50,10 +73,44 @@ public class ChatGUI extends JFrame {
         c.gridx = 1;
         c.gridy = 0;
         c.ipady = -5;
+        jButton.addActionListener(new SendActionListener());
         container.add(jButton, c);
+
+        String name = askName();
+        user = userDao.create(name);
     }
 
     public void addMessage(Message message) {
         jTextArea.append(message.getUser().getName() + ": " + message.getData() + "\n");
+    }
+
+    public String askName() {
+        return (String)JOptionPane.showInputDialog(
+                this,
+                "Введите свое имя",
+                "Enter you name",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                "%username%");
+    }
+
+    public class SendActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            Message message = new Message();
+            message.setUser(user);
+            message.setData(jTextField.getText());
+            try {
+                messageDao.create(message);
+                jTextField.setText("");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (PersistException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 }

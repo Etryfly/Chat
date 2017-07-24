@@ -14,31 +14,23 @@ import java.util.Scanner;
  */
 public class Chat {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        String name = scanner.nextLine();
 
         MySqlDaoFactory daoFactory = new MySqlDaoFactory();
         try (Connection connection = daoFactory.getConnection()) {
-            ChatGUI gui = new ChatGUI();
+            ChatGUI gui = new ChatGUI(daoFactory);
             gui.setVisible(true);
 
             UserDao userDao = daoFactory.getUserDao(connection);
             MessageDao messageDao = daoFactory.getMessageDao(connection);
 
-            User user = userDao.create(name);
+
 
             ChatUpdateThread chatUpdateThread = new ChatUpdateThread(daoFactory, gui);
             chatUpdateThread.start();
 
-            while (true) {
-                String messageData = scanner.nextLine();
-                Message message = new Message();
-                message.setData(messageData);
-                message.setUser(user);
-                messageDao.create(message);
-            }
-        } catch (SQLException | PersistException e) {
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (PersistException e) {
             e.printStackTrace();
         }
 

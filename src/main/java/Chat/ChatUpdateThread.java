@@ -28,17 +28,13 @@ public class ChatUpdateThread extends Thread {
             MessageDao messageDao = daoFactory.getMessageDao(connection);
             int lastMessageListSize = 0;
             while (true) {
-
-
                 if (lastMessageListSize != messageDao.getCount()) {
                     List<Message> messageList = messageDao.getAll();
                     for (int i = lastMessageListSize; i < messageList.size() ; i++) {
-                        System.out.println(messageList.get(i).getUser().getName() + " " + messageList.get(i).getData());
                         gui.addMessage(messageList.get(i));
                     }
                     lastMessageListSize = messageList.size();
                 }
-
             }
         } catch (SQLException e) {
             e.printStackTrace();
