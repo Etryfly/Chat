@@ -1,5 +1,6 @@
 package Chat.DAO;
 
+import Chat.DAO.PersistException;
 import Chat.Message;
 
 
@@ -15,4 +16,5 @@ public interface MessageDao {
     Message read(int id) throws SQLException;
     void delete(Message message);
     List<Message> getAll() throws SQLException;
+    int getCount() throws SQLException;
 }

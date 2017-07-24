@@ -2,8 +2,6 @@ package Chat;
 
 import Chat.DAO.MessageDao;
 import Chat.DAO.MySql.MySqlDaoFactory;
-import Chat.DAO.MySql.MySqlMessageDao;
-import Chat.DAO.MySql.MySqlUserDao;
 import Chat.DAO.PersistException;
 import Chat.DAO.UserDao;
 
@@ -15,7 +13,6 @@ import java.util.Scanner;
  * Etryfly 21.07.17.
  */
 public class Chat {
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -23,11 +20,24 @@ public class Chat {
 
         MySqlDaoFactory daoFactory = new MySqlDaoFactory();
         try (Connection connection = daoFactory.getConnection()) {
+            ChatGUI gui = new ChatGUI();
+            gui.setVisible(true);
+
             UserDao userDao = daoFactory.getUserDao(connection);
             MessageDao messageDao = daoFactory.getMessageDao(connection);
 
             User user = userDao.create(name);
-            System.out.println(user.getId() + " " + user.getName());
+
+            ChatUpdateThread chatUpdateThread = new ChatUpdateThread(daoFactory, gui);
+            chatUpdateThread.start();
+
+            while (true) {
+                String messageData = scanner.nextLine();
+                Message message = new Message();
+                message.setData(messageData);
+                message.setUser(user);
+                messageDao.create(message);
+            }
         } catch (SQLException | PersistException e) {
             e.printStackTrace();
         }
